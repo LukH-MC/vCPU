@@ -53,9 +53,24 @@ struct CPU {
         return Data;
     }
 
+    //opcodes
+    static constexpr Byte LNS_LDA_IM = 0xA9;
+
     void Execute(u32 Cycles, Mem &memory) {
         while (Cycles > 0) {
             Byte Ins = FetchByte(Cycles, memory);
+            switch (Ins) {
+                case LNS_LDA_IM:
+                {
+                   Byte Value = FetchByte(Cycles, memory);
+                   A = Value;
+                   Z = (A == 0);
+                   N = (A & 0b1000000) > 0;
+                } break;
+                default:
+                    printf("Instruction not handled %d\n", Ins);
+                    break;
+            }
         }
     }
 };
@@ -85,6 +100,6 @@ int main() {
     CPU cpu;
     cpu.Reset(mem);
     cpu.Execute(2, mem); //2 is placeholder for amount of instructions to execute
-    menu(cpu, mem);
+    //menu(cpu, mem);
     return 0;
 }
