@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
 
 using Byte = unsigned char;
 using Word = unsigned short;
@@ -59,11 +60,31 @@ struct CPU {
     }
 };
 
+void menu(CPU& cpu, Mem& mem) {
+    printf("1. Dump Memory\n");
+    printf("2. Execute 2 further instructions\n");
+    printf("3. Exit\n");
+    short selec;
+    std::cin >> selec;
+    switch (selec) {
+        case 1:
+            for(u32 i = 0; i < mem.MAX_MEM ; i++) {
+                printf("%x  ", mem.Data[i]);
+            }
+            break;
+        case 2:
+            cpu.Execute(2, mem);
+            break;
+        default:
+            break;
+    }
+}
 
 int main() {
     Mem mem;
     CPU cpu;
     cpu.Reset(mem);
     cpu.Execute(2, mem); //2 is placeholder for amount of instructions to execute
+    menu(cpu, mem);
     return 0;
 }
