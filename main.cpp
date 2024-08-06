@@ -54,13 +54,13 @@ struct CPU {
     }
 
     //opcodes
-    static constexpr Byte LNS_LDA_IM = 0xA9;
+    static constexpr Byte INS_LDA_IM = 0xA9;
 
     void Execute(u32 Cycles, Mem &memory) {
         while (Cycles > 0) {
             Byte Ins = FetchByte(Cycles, memory);
             switch (Ins) {
-                case LNS_LDA_IM:
+                case INS_LDA_IM:
                 {
                    Byte Value = FetchByte(Cycles, memory);
                    A = Value;
